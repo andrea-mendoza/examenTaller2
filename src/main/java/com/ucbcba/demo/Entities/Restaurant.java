@@ -12,7 +12,7 @@ public class Restaurant {
     private Integer id;
 
     @NotNull
-    private Integer score;
+    private Integer score = 0;
 
     @NotNull
     private String name;
