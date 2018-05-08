@@ -27,21 +27,32 @@ public class RestaurantController {
         this.cityService = cityService;
     }
 
+    @RequestMapping("/")
+    String home(Model model) {
+        model.addAttribute("restaurants", restaurantService.listAllRestaurants());
+        return "home";
+    }
     @RequestMapping("/newRestaurant")
     String newRestaurant(Model model) {
         return "newRestaurant";
     }
 
-    @RequestMapping("/home")
-    String home(Model model) {
+    @RequestMapping("/restaurants")
+    String list(Model model) {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
-        return "home";
+        return "restaurants";
+    }
+    @RequestMapping("/deleteRestaurant/{id}")
+    String delete(@PathVariable Integer id) {
+        restaurantService.deleteRestaurant(id);
+        return "redirect:/restaurants";
+
     }
 
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
     String save(Restaurant restaurant) {
         restaurantService.saveRestaurant(restaurant);
-        return "redirect:/home";
+        return "redirect:/restaurants";
     }
 
     @RequestMapping("/editRestaurant/{id}")
