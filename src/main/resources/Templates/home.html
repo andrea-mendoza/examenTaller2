@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
 <body>
-<h1>Lista de restaurantes (?</h1>
 
+<h1>Restaurantes</h1>
+<table border="2" cellspacing="0" cellpadding="8" >
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Direccion
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Score
+        </th>
+
+    </tr>
+    <tr th:each="restaurant: ${restaurants}">
+        <td th:text="${restaurant.name}"> </td>
+        <td th:text="${restaurant.direction}"> </td>
+        <td th:text="${restaurant.phone}"> </td>
+        <td th:text="${restaurant.score}"> </td>
+    </tr>
+</table>
 </body>
 </html>

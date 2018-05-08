@@ -24,6 +24,7 @@ public class RestaurantController {
 
     @RequestMapping("/home")
     String home(Model model) {
+        model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "home";
     }
 
