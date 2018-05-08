@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Restaurante</title>
+</head>
+<body>
+<h1>Editar un Restaurante</h1>
+<form action="/restaurant"  method="POST">
+    <input type="hidden" name="id" th:value="${restaurant.id}">
+    <input type="hidden" name="score" th:value="${restaurant.score}">
+    <p>Nombre: </p>
+    <textarea name="name" id="name" th:text="${restaurant.name}" cols="30" rows="1"> </textarea>
+    <p>Direccion Principal: </p>
+    <textarea name ="direction" id="direction" th:text="${restaurant.direction}" cols="30" rows="1"></textarea>
+    <p>Telefono: </p>
+    <textarea name="phone" id="phone" th:text="${restaurant.phone}" cols="30" rows="1"> </textarea>
+    <p>Sucursal: </p>
+    <textarea name="sucursales" id = "sucursales" th:text="${restaurant.sucursales}"    cols="30" rows="1" ></textarea>
+    <select>
+        <option th:each="city : ${cities}"
+                th:value="${city.id}"
+                th:text="${city.name}"></option>
+    </select>
+    <input type="submit" value="Guardar">
+</form>
+</body>
+</html>
