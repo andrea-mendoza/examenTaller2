@@ -42,6 +42,7 @@ public class RestaurantController {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
     }
+
     @RequestMapping("/deleteRestaurant/{id}")
     String delete(@PathVariable Integer id) {
         restaurantService.deleteRestaurant(id);
@@ -62,5 +63,12 @@ public class RestaurantController {
         Iterable<City> cities = cityService.listAllCities();
         model.addAttribute("cities", cities);
         return "editRestaurant";
+    }
+
+    @RequestMapping("/showRestaurant/{id}")
+    String showRestaurant(@PathVariable Integer id, Model model) {
+        Restaurant restaurant = restaurantService.getRestaurant(id);
+        model.addAttribute("restaurant", restaurant);
+        return "showRestaurant";
     }
 }

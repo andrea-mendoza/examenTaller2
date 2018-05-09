@@ -35,6 +35,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
+        user.setRole("CLIENTE");
         userService.save(user);
         return "redirect:/";
     }
@@ -45,7 +46,6 @@ public class UserController {
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
-
         return "login";
     }
 

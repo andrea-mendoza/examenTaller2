@@ -27,7 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/registration", "/").permitAll()
-                .antMatchers("/restaurants").hasAuthority("ADMIN")
+                .antMatchers("/restaurants").permitAll()
+                .antMatchers("/deleteRestaurant/**","/newRestaurant","/editRestaurant/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/css/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/images/**").permitAll()
                 .anyRequest().authenticated()
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login")
-                .defaultSuccessUrl("/restaurants")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()

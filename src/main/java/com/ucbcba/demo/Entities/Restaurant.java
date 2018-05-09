@@ -23,9 +23,6 @@ public class Restaurant {
     @NotNull
     private String phone;
 
-    @NotNull
-    private String sucursales;
-
     public Integer getId() {
         return id;
     }
@@ -64,13 +61,5 @@ public class Restaurant {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getSucursales() {
-        return sucursales;
-    }
-
-    public void setSucursales(String sucursales) {
-        this.sucursales = sucursales;
     }
 }
