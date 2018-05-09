@@ -1,12 +1,66 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+    <meta charset="utf-8">
+    <title> Home </title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<div class="main_menu_bg">
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-left">
+                            <li><a href="#slider"> Registrar </a></li>
+                            <li><a href="#abouts"> Iniciar Sesion </a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#slider"> Perfil </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+</header>
 
-<a href="/login">Ingresar</a>
-Bienvenidos
+<section id="slider" class="slider">
+    <div class="slider_overlay">
+        <div class="container">
+            <div class="row">
+                <div class="main_slider text-center">
+                    <div class="col-md-12">
+                        <div class="main_slider_content wow zoomIn" data-wow-duration="1s">
+                            <h1> TROFIMA </h1>
+                            <div style="display:flex">
+                                <select style="width: 300px; color:orange" class="form-control" id="sel1">
+                                    <option style="color:orange"> Cochabamba </option>
+                                    <option style="color:orange"> Santa Cruz </option>
+                                    <option style="color:orange"> La Paz </option>
+                                    <option style="color:orange"> Ometepe </option>
+                                </select>
+                                <input class="form-control my-0 py-1" type="text" placeholder="Search..." aria-label="Search" style="color:orange">
+                                <button type="button" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"> Buscar </button>
+                            </div>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Desayuno </button>
+                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Almuerzo </button>
+                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Cena </button>
+                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Te </button>
+                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Merienda </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
