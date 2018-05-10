@@ -25,7 +25,13 @@ body {
 /*==========================================
 PRE LOADER 
 ==========================================*/
+a.admin{
 
+}
+a.client{
+    display:none;
+    visibility: hidden;
+}
 .preloader {
     position: fixed;
     top: 0;

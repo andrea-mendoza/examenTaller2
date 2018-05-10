@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"><head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -21,7 +23,10 @@
             Score
         </th>
         <th>
-            Ver
+            Imagen
+        </th>>
+        <th>
+            Opciones
         </th>
 
 
@@ -31,8 +36,11 @@
         <td th:text="${restaurant.direction}"> </td>
         <td th:text="${restaurant.phone}"> </td>
         <td th:text="${restaurant.score}"> </td>
+        <td> <img th:src="${restaurant.fileUrl}" width="350" height="200"> </td>
         <td>
             <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
+            <a th:class="${actualRole}" th:href="${'/editRestaurant/' + restaurant.id}">Editar</a>
+            <a th:class="${actualRole}" th:href="${'/deleteRestaurant/' + restaurant.id}">Eliminar</a>
         </td>
     </tr>
 </table>
