@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Editar un Restaurante</h1>
-< action="/restaurant"  method="POST">
+<form action="/restaurant"  method="POST">
     <input type="hidden" name="id" th:value="${restaurant.id}">
     <input type="hidden" name="score" th:value="${restaurant.score}">
     <p>Nombre: </p>
@@ -15,15 +15,16 @@
     <textarea name ="direction" id="direction" th:text="${restaurant.direction}" cols="30" rows="3"></textarea>
     <p>Telefono: </p>
     <textarea name="phone" id="phone" th:text="${restaurant.phone}" cols="30" rows="3"> </textarea>
-    <p>Sucursal: </p>
-    <textarea name="sucursales" id = "sucursales" th:text="${restaurant.sucursales}"    cols="30" rows="3" ></textarea>
-    <br/>
-    <img th:src="${restaurant.fileUrl}" alt="Flowers in Chania" width="460" height="345">
+    <br />
     <select>
         <option th:each="city : ${cities}"
                 th:value="${city.id}"
-                th:text="${city.name}"></option>
+                th:text="${city.name}"
+                th:selected="(${city.id} == ${restaurant.city.id})"></option>
     </select>
+    <br />
+    <img th:src="${restaurant.fileUrl}" width="460" height="345">
+    <br />
     <input type="submit" value="Guardar">
 </form>
 </body>

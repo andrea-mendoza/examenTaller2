@@ -45,10 +45,11 @@ public class UserController {
         return "showProfile";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Model model, String error, String logout) {
-        return "home";
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String home(Model model, String error, String logout) {
+//        model.addAttribute("cities", cityService.listAllCities());
+//        return "home";
+//    }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         return "login";

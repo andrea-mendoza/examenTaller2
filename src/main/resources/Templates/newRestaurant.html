@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Restaurante</title>
@@ -13,9 +13,11 @@
     <textarea name ="direction" id="direction" cols="30" rows="3"></textarea>
     <p>Ingrese el telefono: </p>
     <textarea name="phone" id="phone" cols="30" rows="2"> </textarea>
-    <p>Ingrese la sucursal: </p>
-    <textarea name="sucursales" id = "sucursales" cols="30" rows="3" ></textarea>
-    <br/>
+    <br />
+    <select name="city" id="city">
+        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+    </select>
+    <br />
     <textarea name="fileUrl" id="fileUrl"> </textarea>
     <br/>
     <input type="submit" value="Guardar">

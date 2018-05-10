@@ -40,10 +40,10 @@
                             <h1> TROFIMA </h1>
                             <div style="display:flex">
                                 <select style="width: 300px; color:orange" class="form-control" id="sel1">
-                                    <option style="color:orange"> Cochabamba </option>
-                                    <option style="color:orange"> Santa Cruz </option>
-                                    <option style="color:orange"> La Paz </option>
-                                    <option style="color:orange"> Ometepe </option>
+                                    <option style="color:orange"
+                                            th:each="city : ${cities}"
+                                            th:value="${city.id}"
+                                            th:text="${city.name}"></option>
                                 </select>
                                 <input class="form-control my-0 py-1" type="text" placeholder="Search..." aria-label="Search" style="color:orange">
                                 <button type="button" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"> Buscar </button>

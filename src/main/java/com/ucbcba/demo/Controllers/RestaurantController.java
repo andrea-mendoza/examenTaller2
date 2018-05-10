@@ -29,11 +29,12 @@ public class RestaurantController {
 
     @RequestMapping("/")
     String home(Model model) {
-        model.addAttribute("restaurants", restaurantService.listAllRestaurants());
+        model.addAttribute("cities", cityService.listAllCities());
         return "home";
     }
     @RequestMapping("/newRestaurant")
     String newRestaurant(Model model) {
+        model.addAttribute("cities", cityService.listAllCities());
         return "newRestaurant";
     }
 

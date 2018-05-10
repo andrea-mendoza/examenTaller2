@@ -20,6 +20,10 @@ public class Restaurant {
     @NotNull
     private String direction;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @NotNull
     private String phone;
 
@@ -72,5 +76,13 @@ public class Restaurant {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }
