@@ -23,6 +23,9 @@ public class Restaurant {
     @NotNull
     private String phone;
 
+    @NotNull
+    private String fileUrl;
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +64,13 @@ public class Restaurant {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 }

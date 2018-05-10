@@ -40,6 +40,11 @@ public class UserController {
         return "redirect:/";
     }
 
+    @RequestMapping("/profile")
+    public String perfil(Model model) {
+        return "showProfile";
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model, String error, String logout) {
         return "home";
