@@ -4,7 +4,9 @@ import com.ucbcba.demo.Entities.Category;
 import com.ucbcba.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;

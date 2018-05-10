@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Restaurante</title>
+
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+
 </head>
 <body>
 <h1>Editar un Restaurante</h1>
@@ -15,6 +18,13 @@
     <textarea name ="direction" id="direction" th:text="${restaurant.direction}" cols="30" rows="3"></textarea>
     <p>Telefono: </p>
     <textarea name="phone" id="phone" th:text="${restaurant.phone}" cols="30" rows="3"> </textarea>
+    <br />
+    <select>
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="(${category.id} == ${restaurant.category.id})"></option>
+    </select>
     <br />
     <select>
         <option th:each="city : ${cities}"

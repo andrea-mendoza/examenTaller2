@@ -4,6 +4,7 @@ import com.ucbcba.demo.Entities.City;
 import com.ucbcba.demo.Entities.Restaurant;
 
 import com.ucbcba.demo.Entities.User;
+import com.ucbcba.demo.services.CategoryService;
 import com.ucbcba.demo.services.CityService;
 import com.ucbcba.demo.services.RestaurantService;
 import com.ucbcba.demo.services.UserService;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RestaurantController {
     private RestaurantService restaurantService;
     private CityService cityService;
+    private CategoryService categoryService;
     private UserService userService;
-    private String actualRole = "client";
+    private String actualRole = "admin";
 
     @Autowired
     public void setRestaurantService(RestaurantService restaurantService){
@@ -34,14 +36,20 @@ public class RestaurantController {
     public void setUserService(UserService userService){
         this.userService = userService;
     }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService){
+        this.categoryService = categoryService;
+    }
 
     @RequestMapping("/")
     String home(Model model) {
         model.addAttribute("cities", cityService.listAllCities());
+        model.addAttribute("actualRole", this.actualRole);
         return "home";
     }
     @RequestMapping("/newRestaurant")
     String newRestaurant(Model model) {
+        model.addAttribute( "categories", categoryService.listAllCategories());
         model.addAttribute("cities", cityService.listAllCities());
         return "newRestaurant";
     }
@@ -68,10 +76,9 @@ public class RestaurantController {
 
     @RequestMapping("/editRestaurant/{id}")
     String editRestaurant(@PathVariable Integer id, Model model) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
-        model.addAttribute("restaurant", restaurant);
-        Iterable<City> cities = cityService.listAllCities();
-        model.addAttribute("cities", cities);
+        model.addAttribute("restaurant", restaurantService.getRestaurant(id));
+        model.addAttribute("categories", categoryService.listAllCategories());
+        model.addAttribute("cities", cityService.listAllCities());
         return "editRestaurant";
     }
 

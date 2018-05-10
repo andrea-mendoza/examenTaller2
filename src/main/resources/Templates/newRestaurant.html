@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Restaurante</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <h1>Registre un Restaurante</h1>
@@ -14,6 +15,10 @@
     <p>Ingrese el telefono: </p>
     <textarea name="phone" id="phone" cols="30" rows="2"> </textarea>
     <br />
+    <select name="category" id="category">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+    <br/>
     <select name="city" id="city">
         <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
     </select>

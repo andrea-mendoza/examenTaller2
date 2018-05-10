@@ -24,6 +24,10 @@ public class Restaurant {
     @JoinColumn(name = "city_id")
     private City city;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @NotNull
     private String phone;
 
@@ -84,5 +88,13 @@ public class Restaurant {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
