@@ -11,10 +11,20 @@ import com.ucbcba.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 public class RestaurantController {
@@ -49,6 +59,7 @@ public class RestaurantController {
     }
     @RequestMapping("/newRestaurant")
     String newRestaurant(Model model) {
+        model.addAttribute("restaurant",new Restaurant());
         model.addAttribute( "categories", categoryService.listAllCategories());
         model.addAttribute("cities", cityService.listAllCities());
         return "newRestaurant";
@@ -69,8 +80,27 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
-    String save(Restaurant restaurant) {
-        restaurantService.saveRestaurant(restaurant);
+    String save(@Valid Restaurant restaurant, @RequestParam("file") MultipartFile foto,
+                BindingResult bindingResult, RedirectAttributes flash) {
+
+        if(!foto.isEmpty()){
+
+            String uniqueFilename = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
+            Path rootPath = Paths.get("uploads").resolve(uniqueFilename);
+
+            Path rootAbsolutePath = rootPath.toAbsolutePath();
+
+            try{
+                Files.copy(foto.getInputStream(),rootAbsolutePath);
+
+                flash.addFlashAttribute("info", "Has subido correctamente '" + uniqueFilename +"'");
+                restaurant.setFoto(uniqueFilename);
+                restaurantService.saveRestaurant(restaurant);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
         return "redirect:/restaurants";
     }
 
