@@ -20,7 +20,7 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="/profile"> Perfil </a></li>
-                            <li> <i th:text="${actualRole}"> </i></li>
+                            <li> <i th:text="${username}"> </i></li>
                         </ul>
                     </div>
                 </div>
@@ -46,7 +46,9 @@
                                             th:text="${city.name}"></option>
                                 </select>
                                 <input class="form-control my-0 py-1" type="text" placeholder="Search..." aria-label="Search" style="color:orange">
-                                <button type="button" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"> Buscar </button>
+                                <a href="/restaurants">
+                                    <button type="button" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"> Buscar </button>
+                                </a>
                             </div>
                         </div>
                         <div class="btn-group" role="group" aria-label="Basic example">

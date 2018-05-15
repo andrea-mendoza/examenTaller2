@@ -25,10 +25,10 @@ body {
 /*==========================================
 PRE LOADER 
 ==========================================*/
-a.admin{
+a.ADMIN{
 
 }
-a.client{
+a.CLIENTE{
     display:none;
     visibility: hidden;
 }

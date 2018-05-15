@@ -1,6 +1,5 @@
 package com.ucbcba.demo.Controllers;
 
-import com.ucbcba.demo.Entities.City;
 import com.ucbcba.demo.Entities.Restaurant;
 
 import com.ucbcba.demo.Entities.User;
@@ -9,13 +8,12 @@ import com.ucbcba.demo.services.CityService;
 import com.ucbcba.demo.services.RestaurantService;
 import com.ucbcba.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,7 +30,9 @@ public class RestaurantController {
     private CityService cityService;
     private CategoryService categoryService;
     private UserService userService;
-    private String actualRole = "admin";
+    private Authentication auth;
+    private String username;
+
 
     @Autowired
     public void setRestaurantService(RestaurantService restaurantService){
@@ -53,8 +53,10 @@ public class RestaurantController {
 
     @RequestMapping("/")
     String home(Model model) {
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
         model.addAttribute("cities", cityService.listAllCities());
-        model.addAttribute("actualRole", this.actualRole);
+        model.addAttribute("username", this.username);
         return "home";
     }
     @RequestMapping("/newRestaurant")
@@ -67,7 +69,13 @@ public class RestaurantController {
 
     @RequestMapping("/restaurants")
     String list(Model model) {
-        model.addAttribute("actualRole", this.actualRole);
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        if(username == "not logged in"){
+            model.addAttribute("actualRole", "CLIENTE");
+        }else{
+            model.addAttribute("actualRole", userService.findByUsername(username).getRole());
+        }
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
     }
@@ -117,9 +125,5 @@ public class RestaurantController {
         Restaurant restaurant = restaurantService.getRestaurant(id);
         model.addAttribute("restaurant", restaurant);
         return "showRestaurant";
-    }
-
-    public void setActualRole(String actualRole) {
-        this.actualRole = actualRole;
     }
 }

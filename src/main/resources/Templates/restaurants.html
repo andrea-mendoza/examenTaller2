@@ -36,7 +36,7 @@
         <td th:text="${restaurant.direction}"> </td>
         <td th:text="${restaurant.phone}"> </td>
         <td th:text="${restaurant.score}"> </td>
-        <td> <img th:if="${#strings.length(restaurant.foto)>0}" th:src="${'/uploads/' + restaurant.foto}" th:alt="${restaurant.foto}"> </td>
+        <td> <img th:if="${#strings.length(restaurant.foto)>0}" th:src="${'/uploads/' + restaurant.foto}" th:alt="${restaurant.foto}" width="350" height="200"> </td>
         <td>
             <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
             <a th:class="${actualRole}" th:href="${'/editRestaurant/' + restaurant.id}">Editar</a>
