@@ -33,7 +33,7 @@
                 th:selected="(${city.id} == ${restaurant.city.id})"></option>
     </select>
     <br />
-    <img th:if="${#strings.length(restaurant.foto)>0}" th:src="${'/uploads/' + restaurant.foto}" th:alt="${restaurant.foto}" width="460" height="345">
+    <img name=file id=file th:if="${#strings.length(restaurant.foto)>0}" th:src="${'/uploads/' + restaurant.foto}" th:alt="${restaurant.foto}" width="460" height="345">
     <br />
     <input type="submit" value="Guardar">
 </form>

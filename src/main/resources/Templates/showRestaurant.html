@@ -1,11 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Show</title>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <script>
+        function setScore(number){
+            console.log("funciono" + number);
+        }
+    </script>
+    <style>
+        fieldset { margin: 0; padding: 0; }
+        .rating {
+          border: none;
+          float: left;
+        }
+
+        .rating > input { display: none; }
+        .rating > label:before {
+          margin: 5px;
+          font-size: 1.25em;
+          font-family: FontAwesome;
+          display: inline-block;
+          content: "\f005";
+        }
+
+        .rating > .half:before {
+          content: "\f089";
+          position: absolute;
+        }
+
+        .rating > label {
+          color: #ddd;
+         float: right;
+        }
+
+        /***** CSS Magic to Highlight Stars on Hover *****/
+
+        .rating > input:checked ~ label, /* show gold star when clicked */
+        .rating:not(:checked) > label:hover, /* hover current star */
+        .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+        .rating > input:checked + label:hover, /* hover current star when changing rating */
+        .rating > input:checked ~ label:hover,
+        .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+        .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+    </style>
 </head>
 <body>
     <p>Aqui se va a mostrar los datos de un restaurant</p>
+    <form action="/comment" method="POST">
+        <input type="hidden" name="restaurant" th:value="${restaurant.id}">
+        <input type="hidden" name="user" th:value="${user.id}">
+        <textarea name="text" id="text" cols="30" rows="10" required></textarea>
+        <br />
+        <fieldset class="rating">
+            <input type="radio" id="star5" name="score" value="5" required checked/><label class = "full" for="star5" ></label>
+            <input type="radio" id="star4" name="score" value="4"/><label class = "full" for="star4" ></label>
+            <input type="radio" id="star3" name="score" value="3"/><label class = "full" for="star3" ></label>
+            <input type="radio" id="star2" name="score" value="2"/><label class = "full" for="star2" ></label>
+            <input type="radio" id="star1" name="score" value="1"/><label class = "full" for="star1" ></label>
+        </fieldset>
+        <br>
+        <input type="submit" value="Save">
+    </form>
+    <div name="Comments">
+        <p th:each="comment : ${restaurant.comments}" >
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text: </b> <span th:text="${comment.text}"></span><br />
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: </b> <span th:text="${comment.creationDate}"></span><br />
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User: </b> <span th:text="${comment.user.username}"></span><br />
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Likes: </b> <a th:text="${comment.likes}"></a>
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score: </b> <a th:text="${comment.score}"></a>
+            <a type="button" class="btn btn-info" th:href="${'/commentlike/' + comment.id}">like</a>
+            <a type="button" class="btn btn-info" th:href="${'/commentdislike/' + comment.id}">dislike</a>
+        </p>
+
+    </div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.ucbcba.demo.Entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Restaurant {
@@ -30,6 +31,9 @@ public class Restaurant {
 
     @NotNull
     private String phone;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     private String foto;
 
@@ -91,5 +95,13 @@ public class Restaurant {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

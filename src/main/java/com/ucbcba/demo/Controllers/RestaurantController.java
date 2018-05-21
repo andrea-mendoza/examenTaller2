@@ -50,7 +50,6 @@ public class RestaurantController {
     public void setCategoryService(CategoryService categoryService){
         this.categoryService = categoryService;
     }
-
     @RequestMapping("/")
     String home(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
@@ -66,7 +65,6 @@ public class RestaurantController {
         model.addAttribute("cities", cityService.listAllCities());
         return "newRestaurant";
     }
-
     @RequestMapping("/restaurants")
     String list(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
@@ -79,14 +77,12 @@ public class RestaurantController {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
     }
-
     @RequestMapping("/deleteRestaurant/{id}")
     String delete(@PathVariable Integer id) {
         restaurantService.deleteRestaurant(id);
         return "redirect:/restaurants";
 
     }
-
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
     String save(@Valid Restaurant restaurant, @RequestParam("file") MultipartFile foto,
                 BindingResult bindingResult, RedirectAttributes flash) {
@@ -103,15 +99,15 @@ public class RestaurantController {
 
                 flash.addFlashAttribute("info", "Has subido correctamente '" + uniqueFilename +"'");
                 restaurant.setFoto(uniqueFilename);
-                restaurantService.saveRestaurant(restaurant);
+
             }catch (IOException e){
                 e.printStackTrace();
             }
         }
 
+        restaurantService.saveRestaurant(restaurant);
         return "redirect:/restaurants";
     }
-
     @RequestMapping("/editRestaurant/{id}")
     String editRestaurant(@PathVariable Integer id, Model model) {
         model.addAttribute("restaurant", restaurantService.getRestaurant(id));
@@ -119,11 +115,12 @@ public class RestaurantController {
         model.addAttribute("cities", cityService.listAllCities());
         return "editRestaurant";
     }
-
     @RequestMapping("/showRestaurant/{id}")
     String showRestaurant(@PathVariable Integer id, Model model) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
-        model.addAttribute("restaurant", restaurant);
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        model.addAttribute("restaurant", restaurantService.getRestaurant(id));
+        model.addAttribute("user", userService.findByUsername(this.username));
         return "showRestaurant";
     }
 }

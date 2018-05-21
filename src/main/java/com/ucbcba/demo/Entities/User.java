@@ -1,6 +1,7 @@
 package com.ucbcba.demo.Entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -10,11 +11,10 @@ public class User {
     private Integer id;
 
     @NotNull
+    @NotEmpty(message = "Debes ingresar un nombre")
     private String username;
 
     private String role;
-
-
     private String password;
     private String passwordConfirm;
 
