@@ -7,8 +7,30 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 </head>
 <body>
-    <p>Aqui se va a mostrar los datos de un restaurant</p>
-    <form action="/comment" method="POST">
+<div style= "padding-left:50px;">
+    <img th:if="${#strings.length(restaurant.foto)>0}" class="{img-thumbnail rounded float-left"
+         style="width:20%;margin-bottom:-6px" th:src="@{'/uploads/' + ${restaurant.foto}}"
+         th:alt="${restaurant.foto}">
+</div>
+<div style= "padding-left:50px;">
+    <h2><strong th:text="${restaurant.name}"></strong></h2>
+</div>
+<div style= "padding-left:50px;  font-color" >
+    <p style="font-size:20px;">Ciudad: <span th:text="${restaurant.city.name}"></span></p>
+    <p style="font-size:20px;">Direccion: <span th:text="${restaurant.direction}"></span></p>
+    <p style="font-size:20px;">Telefono: <span th:text="${restaurant.phone}"></span></p>
+    <p style="font-size:20px;">Categoria: <span th:text="${restaurant.category.name}"></span></p>
+    <p style="font-size:20px;">Ranking:</p>
+        <fieldset class="rating" th:each="stars:${#numbers.sequence(1,{5})}" >
+            <label th:if="${stars <= restaurant.score}" class="full" style="padding-left:10px; color:yellow; font-size:120%;" > </label>
+        </fieldset>
+    <br/>
+    <br/>
+    <br/>
+    <p style="font-size:20px;">Escribe un comentario</p>
+    <br/>
+</div>
+    <form style= "padding-left:50px;" action="/comment" method="POST">
         <input type="hidden" name="restaurant" th:value="${restaurant.id}">
         <input type="hidden" name="user" th:value="${user.id}">
         <textarea name="text" id="text" cols="30" rows="10" required></textarea>
@@ -23,7 +45,7 @@
         <br>
         <input type="submit" value="Save">
     </form>
-    <div name="Comments">
+    <div style= "padding-left:50px;" name="Comments">
         <p th:each="comment : ${restaurant.comments}" >
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text: </b> <span th:text="${comment.text}"></span><br />
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: </b> <span th:text="${comment.creationDate}"></span><br />
