@@ -8,6 +8,7 @@
 </head>
 <body>
 <div style= "padding-left:50px;">
+
     <img th:src="@{'data:image/jpg;base64,' +  ${restaurant.f}}" width="500"/>
 </div>
 <div style= "padding-left:50px;">
@@ -19,9 +20,9 @@
     <p style="font-size:20px;">Telefono: <span th:text="${restaurant.phone}"></span></p>
     <p style="font-size:20px;">Categoria: <span th:text="${restaurant.category.name}"></span></p>
     <p style="font-size:20px;">Ranking:</p>
-        <!--<fieldset class="rating" th:each="stars:${#numbers.sequence(1,{5})}" >
-            <label th:if="${stars <= restaurant.score}" class="full" style="padding-left:10px; color:yellow; font-size:120%;" ></label>
-        </fieldset>-->
+    <fieldset class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
+          <label  style="padding-left:10px; color:yellow; font-size:120%;" ></label>
+    </fieldset>
     <br/>
     <br/>
     <br/>
@@ -31,17 +32,17 @@
     <form style= "padding-left:50px;" th:action="@{/comment}" method="POST">
         <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
         <input type="hidden" name="user" th:value="${user.id}"/>
-        <textarea name="text" id="text" cols="30" rows="10" required="required"></textarea>
+        <textarea name="text" id="text" cols="30" rows="10" required="required">Escribe un comentario...</textarea>
         <br/>
-        <!--<fieldset class="rating">
+        <fieldset class="rating">
             <input type="radio" id="star5" name="score" value="5" required="required" checked="checked"/><label class = "full" for="star5" ></label>
             <input type="radio" id="star4" name="score" value="4"/><label class = "full" for="star4" ></label>
             <input type="radio" id="star3" name="score" value="3"/><label class = "full" for="star3" ></label>
             <input type="radio" id="star2" name="score" value="2"/><label class = "full" for="star2" ></label>
             <input type="radio" id="star1" name="score" value="1"/><label class = "full" for="star1" ></label>
-        </fieldset>-->
+        </fieldset>
         <br/>
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Enviar comentario"/>
     </form>
     <div style= "padding-left:50px;" name="Comments">
         <p th:each="comment : ${restaurant.comments}" >
