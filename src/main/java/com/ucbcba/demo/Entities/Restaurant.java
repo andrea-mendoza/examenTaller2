@@ -35,7 +35,15 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    private String foto;
+    @Lob
+    @Column(columnDefinition="mediumblob")
+    private byte[] foto;
+
+    private String f;
+
+    public String getF() { return f; }
+
+    public void setF(String f) { this.f = f; }
 
     public Integer getId() {
         return id;
@@ -77,10 +85,6 @@ public class Restaurant {
         this.phone = phone;
     }
 
-    public String getFoto() { return foto; }
-
-    public void setFoto(String foto) { this.foto = foto; }
-
     public City getCity() {
         return city;
     }
@@ -104,4 +108,8 @@ public class Restaurant {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public byte[] getFoto() { return foto; }
+
+    public void setFoto(byte[] foto) { this.foto = foto; }
 }

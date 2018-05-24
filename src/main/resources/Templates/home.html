@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" >
     <title> Home </title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" >
-    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet"/>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
+<header>
 <div class="main_menu_bg">
     <div class="container">
         <div class="row">
@@ -45,7 +45,7 @@
                                             th:value="${city.id}"
                                             th:text="${city.name}"></option>
                                 </select>
-                                <input class="form-control my-0 py-1" type="text" placeholder="Search..." aria-label="Search" style="color:orange">
+                                <input class="form-control my-0 py-1" type="text" placeholder="Search..." aria-label="Search" style="color:orange"/>
                                 <a href="/restaurants">
                                     <button type="button" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"> Buscar </button>
                                 </a>

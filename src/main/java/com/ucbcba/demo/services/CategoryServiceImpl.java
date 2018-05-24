@@ -27,11 +27,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getRestaurant(Integer id) {
-        return categoryRepository.findById(id).get();
+        return categoryRepository.findOne(id);
     }
 
     @Override
     public void deleteRestaurant(Integer id) {
-        categoryRepository.deleteById(id);
+        categoryRepository.delete(id);
     }
 }

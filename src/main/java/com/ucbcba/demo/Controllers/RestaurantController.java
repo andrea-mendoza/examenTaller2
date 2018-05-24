@@ -10,6 +10,7 @@ import com.ucbcba.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -66,13 +69,21 @@ public class RestaurantController {
         return "newRestaurant";
     }
     @RequestMapping("/restaurants")
-    String list(Model model) {
+    String list(Model model) throws UnsupportedEncodingException {
         auth = SecurityContextHolder.getContext().getAuthentication();
         this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
         if(username == "not logged in"){
             model.addAttribute("actualRole", "CLIENTE");
         }else{
             model.addAttribute("actualRole", userService.findByUsername(username).getRole());
+        }
+        byte[] bytes;
+        String fot;
+        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
+        for(int i=0; i<restaurantIterable.size(); i++){
+            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
+            fot = new String(bytes,"UTF-8");
+            restaurantIterable.get(i).setF(fot);
         }
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
@@ -84,27 +95,12 @@ public class RestaurantController {
 
     }
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
-    String save(@Valid Restaurant restaurant, @RequestParam("file") MultipartFile foto,
-                BindingResult bindingResult, RedirectAttributes flash) {
-
-        if(!foto.isEmpty()){
-
-            String uniqueFilename = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
-            Path rootPath = Paths.get("uploads").resolve(uniqueFilename);
-
-            Path rootAbsolutePath = rootPath.toAbsolutePath();
-
-            try{
-                Files.copy(foto.getInputStream(),rootAbsolutePath);
-
-                flash.addFlashAttribute("info", "Has subido correctamente '" + uniqueFilename +"'");
-                restaurant.setFoto(uniqueFilename);
-
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+    String save(Restaurant restaurant, @RequestParam("file") MultipartFile files) throws IOException {
+        byte[] f;
+        if(!files.isEmpty()){
+            f = files.getBytes();
+            restaurant.setFoto(f);
         }
-
         restaurantService.saveRestaurant(restaurant);
         return "redirect:/restaurants";
     }
@@ -116,10 +112,16 @@ public class RestaurantController {
         return "editRestaurant";
     }
     @RequestMapping("/showRestaurant/{id}")
-    String showRestaurant(@PathVariable Integer id, Model model) {
+    String showRestaurant(@PathVariable Integer id, Model model) throws UnsupportedEncodingException {
         auth = SecurityContextHolder.getContext().getAuthentication();
         this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
-        model.addAttribute("restaurant", restaurantService.getRestaurant(id));
+        Restaurant restaurant = restaurantService.getRestaurant(id);
+        byte[] bytes;
+        String fot;
+        bytes = Base64.encode(restaurant.getFoto());
+        fot = new String(bytes,"UTF-8");
+        //restaurant.setF(fot);
+        model.addAttribute("restaurant", restaurant);
         model.addAttribute("user", userService.findByUsername(this.username));
         return "showRestaurant";
     }

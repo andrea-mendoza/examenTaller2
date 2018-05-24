@@ -27,11 +27,11 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City getCity(Integer id) {
-        return cityRepository.findById(id).get();
+        return cityRepository.findOne(id);
     }
 
     @Override
     public void deleteCity(Integer id) {
-        cityRepository.deleteById(id);
+        cityRepository.delete(id);
     }
 }

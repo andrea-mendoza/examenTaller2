@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Editar Restaurante</title>
-
-    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
-
+    <meta charset="UTF-8"/>
+    <title>Nuevo Restaurante</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<h1>Editar un Restaurante</h1>
-<form action="/restaurant"  method="POST">
-    <input type="hidden" name="id" th:value="${restaurant.id}">
-    <input type="hidden" name="score" th:value="${restaurant.score}">
-    <p>Nombre: </p>
-    <textarea name="name" id="name" th:text="${restaurant.name}" cols="30" rows="3"> </textarea>
-    <p>Direccion Principal: </p>
-    <textarea name ="direction" id="direction" th:text="${restaurant.direction}" cols="30" rows="3"></textarea>
-    <p>Telefono: </p>
-    <textarea name="phone" id="phone" th:text="${restaurant.phone}" cols="30" rows="3"> </textarea>
+<h1>Registre un Restaurante</h1>
+<form autocomplete="off" th:action="@{/restaurant}"  method="POST"
+      th:object="${restaurant}" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}" th:value="restaurant.id"/>
+    <p>Ingrese el nombre</p>
+    <input type="text" th:field="*{name}" th:value="restaurant.name" placeholder="Nombre"/>
+    <p>Ingrese Direccion Principal: </p>
+    <input type="text" th:field="*{direction}" th:value="restaurant.direction" placeholder="Direccion"/>
+    <p>Ingrese el telefono: </p>
+    <input type="text" th:field="*{phone}" th:value="restaurant.phone" placeholder="Telefono"/>
     <br />
-    <select>
-        <option th:each="category : ${categories}"
-                th:value="${category.id}"
-                th:text="${category.name}"
+    <select th:field="*{category}">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"
                 th:selected="(${category.id} == ${restaurant.category.id})"></option>
     </select>
-    <br />
-    <select>
-        <option th:each="city : ${cities}"
-                th:value="${city.id}"
-                th:text="${city.name}"
+    <br/>
+    <select th:field="*{city}">
+        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"
                 th:selected="(${city.id} == ${restaurant.city.id})"></option>
     </select>
     <br />
-    <img name=file id=file th:if="${#strings.length(restaurant.foto)>0}" th:src="${'/uploads/' + restaurant.foto}" th:alt="${restaurant.foto}" width="460" height="345">
-    <br />
-    <input type="submit" value="Guardar">
+    <input type="file" name="file" id="foto"/>
+    <br/>
+    <button style="background-color:darkturqoise" type="submit" >Crear restaurant</button>
+
 </form>
 </body>
 </html>

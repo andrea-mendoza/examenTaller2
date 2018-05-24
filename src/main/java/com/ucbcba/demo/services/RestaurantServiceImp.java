@@ -30,11 +30,11 @@ public class RestaurantServiceImp implements RestaurantService {
 
     @Override
     public Restaurant getRestaurant(Integer id) {
-        return restaurantRepository.findById(id).get();
+        return restaurantRepository.findOne(id);
     }
 
     @Override
     public void deleteRestaurant(Integer id) {
-        restaurantRepository.deleteById(id);
+        restaurantRepository.delete(id);
     }
 }

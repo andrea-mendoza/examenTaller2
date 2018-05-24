@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Show</title>
-    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"/>
 </head>
 <body>
 <div style= "padding-left:50px;">
-    <img th:if="${#strings.length(restaurant.foto)>0}" class="{img-thumbnail rounded float-left"
-         style="width:20%;margin-bottom:-6px" th:src="@{'/uploads/' + ${restaurant.foto}}"
-         th:alt="${restaurant.foto}">
+    <img th:src="@{'data:image/jpg;base64,' +  ${restaurant.f}}" width="500"/>
 </div>
 <div style= "padding-left:50px;">
     <h2><strong th:text="${restaurant.name}"></strong></h2>
@@ -21,29 +19,29 @@
     <p style="font-size:20px;">Telefono: <span th:text="${restaurant.phone}"></span></p>
     <p style="font-size:20px;">Categoria: <span th:text="${restaurant.category.name}"></span></p>
     <p style="font-size:20px;">Ranking:</p>
-        <fieldset class="rating" th:each="stars:${#numbers.sequence(1,{5})}" >
-            <label th:if="${stars <= restaurant.score}" class="full" style="padding-left:10px; color:yellow; font-size:120%;" > </label>
-        </fieldset>
+        <!--<fieldset class="rating" th:each="stars:${#numbers.sequence(1,{5})}" >
+            <label th:if="${stars <= restaurant.score}" class="full" style="padding-left:10px; color:yellow; font-size:120%;" ></label>
+        </fieldset>-->
     <br/>
     <br/>
     <br/>
     <p style="font-size:20px;">Escribe un comentario</p>
     <br/>
 </div>
-    <form style= "padding-left:50px;" action="/comment" method="POST">
-        <input type="hidden" name="restaurant" th:value="${restaurant.id}">
-        <input type="hidden" name="user" th:value="${user.id}">
-        <textarea name="text" id="text" cols="30" rows="10" required></textarea>
-        <br />
-        <fieldset class="rating">
-            <input type="radio" id="star5" name="score" value="5" required checked/><label class = "full" for="star5" ></label>
+    <form style= "padding-left:50px;" th:action="@{/comment}" method="POST">
+        <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
+        <input type="hidden" name="user" th:value="${user.id}"/>
+        <textarea name="text" id="text" cols="30" rows="10" required="required"></textarea>
+        <br/>
+        <!--<fieldset class="rating">
+            <input type="radio" id="star5" name="score" value="5" required="required" checked="checked"/><label class = "full" for="star5" ></label>
             <input type="radio" id="star4" name="score" value="4"/><label class = "full" for="star4" ></label>
             <input type="radio" id="star3" name="score" value="3"/><label class = "full" for="star3" ></label>
             <input type="radio" id="star2" name="score" value="2"/><label class = "full" for="star2" ></label>
             <input type="radio" id="star1" name="score" value="1"/><label class = "full" for="star1" ></label>
-        </fieldset>
-        <br>
-        <input type="submit" value="Save">
+        </fieldset>-->
+        <br/>
+        <input type="submit" value="Save"/>
     </form>
     <div style= "padding-left:50px;" name="Comments">
         <p th:each="comment : ${restaurant.comments}" >
