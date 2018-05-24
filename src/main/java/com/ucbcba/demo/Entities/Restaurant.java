@@ -35,6 +35,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<LikeRestaurant> likeRestaurants;
+
     @Lob
     @Column(columnDefinition="mediumblob")
     private byte[] foto;
@@ -112,4 +115,8 @@ public class Restaurant {
     public byte[] getFoto() { return foto; }
 
     public void setFoto(byte[] foto) { this.foto = foto; }
+
+    public List<LikeRestaurant> getLikeRestaurants() { return likeRestaurants; }
+
+    public void setLikeRestaurants(List<LikeRestaurant> likeRestaurants) { this.likeRestaurants = likeRestaurants; }
 }

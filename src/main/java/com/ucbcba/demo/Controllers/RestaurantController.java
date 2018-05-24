@@ -1,31 +1,21 @@
 package com.ucbcba.demo.Controllers;
 
+import com.ucbcba.demo.Entities.LikeRestaurant;
 import com.ucbcba.demo.Entities.Restaurant;
 
 import com.ucbcba.demo.Entities.User;
-import com.ucbcba.demo.services.CategoryService;
-import com.ucbcba.demo.services.CityService;
-import com.ucbcba.demo.services.RestaurantService;
-import com.ucbcba.demo.services.UserService;
+import com.ucbcba.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class RestaurantController {
@@ -33,14 +23,13 @@ public class RestaurantController {
     private CityService cityService;
     private CategoryService categoryService;
     private UserService userService;
+    private LikeRestaurantService likeRestaurantService;
     private Authentication auth;
     private String username;
 
 
     @Autowired
-    public void setRestaurantService(RestaurantService restaurantService){
-        this.restaurantService = restaurantService;
-    }
+    public void setRestaurantService(RestaurantService restaurantService){ this.restaurantService = restaurantService; }
     @Autowired
     public void setCityService(CityService cityService){
         this.cityService = cityService;
@@ -53,6 +42,10 @@ public class RestaurantController {
     public void setCategoryService(CategoryService categoryService){
         this.categoryService = categoryService;
     }
+    @Autowired
+    public void setLikeRestaurantService(LikeRestaurantService likeRestaurantService) { this.likeRestaurantService = likeRestaurantService; }
+
+
     @RequestMapping("/")
     String home(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
@@ -127,4 +120,11 @@ public class RestaurantController {
         return "showRestaurant";
 
     }
+
+    @RequestMapping(value = "/restaurant/like", method = RequestMethod.POST)
+    String likeRestaurant(LikeRestaurant likeRestaurant) {
+        likeRestaurantService.saveLikeRestaurant(likeRestaurant);
+        return "redirect:/showRestaurant/" + likeRestaurant.getRestaurant().getId();
+    }
+
 }
