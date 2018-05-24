@@ -84,6 +84,7 @@ public class RestaurantController {
             bytes = Base64.encode(restaurantIterable.get(i).getFoto());
             fot = new String(bytes,"UTF-8");
             restaurantIterable.get(i).setF(fot);
+
         }
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
@@ -120,9 +121,10 @@ public class RestaurantController {
         String fot;
         bytes = Base64.encode(restaurant.getFoto());
         fot = new String(bytes,"UTF-8");
-        //restaurant.setF(fot);
         model.addAttribute("restaurant", restaurant);
+        model.addAttribute("fot",fot);
         model.addAttribute("user", userService.findByUsername(this.username));
         return "showRestaurant";
+
     }
 }
