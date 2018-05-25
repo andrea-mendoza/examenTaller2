@@ -114,6 +114,11 @@ public class RestaurantController {
         String fot;
         bytes = Base64.encode(restaurant.getFoto());
         fot = new String(bytes,"UTF-8");
+
+        restaurant.setScore(0);
+        for(int i=0;i<restaurant.getComments().size();i++)
+            restaurant.setScore(restaurant.getScore() + (restaurant.getComments().get(i).getScore()));
+        restaurant.setScore(restaurant.getScore()/restaurant.getComments().size());
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("fot",fot);
         model.addAttribute("user", userService.findByUsername(this.username));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" >
 <head>
     <meta charset="UTF-8"/>
     <title>Show</title>
@@ -20,9 +20,11 @@
     <p style="font-size:20px;">Categoria: <span th:text="${restaurant.category.name}"></span></p>
     <p style="font-size:20px;">Likes: <span th:text="${restaurant.likeRestaurants.size()}"></span></p>
     <p style="font-size:20px;">Ranking:</p>
-    <!--<fieldset class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
-        <label  style="padding-left:10px; color:yellow; font-size:120%;" ></label>
-    </fieldset>-->
+    <div th:if="${restaurant.score > 0}">
+        <fieldset  class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
+            <label  style="padding-left:10px; color:yellow; font-size:120%;" ></label>
+        </fieldset>
+    </div>
     <div>
         <form style= "padding-left:50px;" th:action="@{/restaurant/like}" method="POST">
             <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
@@ -59,6 +61,7 @@
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: </b> <span th:text="${comment.creationDate}"></span><br />
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User: </b> <span th:text="${comment.user.username}"></span><br />
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Likes: </b> <a th:text="${comment.likes}"></a>
+            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score: </b> <a th:text="${comment.score}"></a>
             <a type="button" class="btn btn-info" th:href="${'/commentlike/' + comment.id}">like</a>
             <a type="button" class="btn btn-info" th:href="${'/commentdislike/' + comment.id}">dislike</a>
         </p>
