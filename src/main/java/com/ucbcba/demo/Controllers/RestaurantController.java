@@ -23,6 +23,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
     private CityService cityService;
     private CategoryService categoryService;
+    private CommentService commentService;
     private UserService userService;
     private LikeRestaurantService likeRestaurantService;
     private Authentication auth;
@@ -46,6 +47,8 @@ public class RestaurantController {
     }
     @Autowired
     public void setLikeRestaurantService(LikeRestaurantService likeRestaurantService) { this.likeRestaurantService = likeRestaurantService; }
+    @Autowired
+    public void setLikeRestaurantService(CommentService commentService) { this.commentService = commentService; }
 
 
     @RequestMapping("/")
@@ -57,30 +60,6 @@ public class RestaurantController {
         model.addAttribute("username", this.username);
         return "home";
     }
-
-    /*@RequestMapping(value = "/busqueda", method = RequestMethod.GET)
-    String busqueda(@RequestParam("name") String name, Model model) throws UnsupportedEncodingException {
-        auth = SecurityContextHolder.getContext().getAuthentication();
-        this.name=name;
-        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
-        if(username == "not logged in"){
-            model.addAttribute("actualRole", "CLIENTE");
-        }else{
-            model.addAttribute("actualRole", userService.findByUsername(username).getRole());
-        }
-        byte[] bytes;
-        String fot;
-        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
-        for(int i=0; i<restaurantIterable.size(); i++){
-            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
-            fot = new String(bytes,"UTF-8");
-            restaurantIterable.get(i).setF(fot);
-
-        }
-        System.out.println(this.name);
-        model.addAttribute("restaurants", restaurantService.getRestaurantLikename(name));
-        return "restaurants";
-    }*/
 
     @RequestMapping("/search/{id}")
     String searchCategory(@PathVariable Integer id,Model model)throws UnsupportedEncodingException {
@@ -108,7 +87,8 @@ public class RestaurantController {
         return "search";
     }
 
-    @RequestMapping("/newRestaurant")
+
+    @RequestMapping("/ADMIN/newRestaurant")
     String newRestaurant(Model model) {
         model.addAttribute("restaurant",new Restaurant());
         model.addAttribute( "categories", categoryService.listAllCategories());
@@ -136,10 +116,10 @@ public class RestaurantController {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
     }
-    @RequestMapping("/deleteRestaurant/{id}")
+    @RequestMapping("/ADMIN/deleteRestaurant/{id}")
     String delete(@PathVariable Integer id) {
         restaurantService.deleteRestaurant(id);
-        return "redirect:/restaurants";
+        return "redirect:/ADMIN";
 
     }
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
@@ -148,11 +128,14 @@ public class RestaurantController {
         if(!files.isEmpty()){
             f = files.getBytes();
             restaurant.setFoto(f);
+        }else{
+            Restaurant r = restaurantService.getRestaurant(restaurant.getId());
+            restaurant.setFoto(r.getFoto());
         }
         restaurantService.saveRestaurant(restaurant);
-        return "redirect:/restaurants";
+        return "redirect:/ADMIN";
     }
-    @RequestMapping("/editRestaurant/{id}")
+    @RequestMapping("/ADMIN/editRestaurant/{id}")
     String editRestaurant(@PathVariable Integer id, Model model) {
         model.addAttribute("restaurant", restaurantService.getRestaurant(id));
         model.addAttribute("categories", categoryService.listAllCategories());
@@ -162,7 +145,17 @@ public class RestaurantController {
     @RequestMapping("/showRestaurant/{id}")
     String showRestaurant(@PathVariable Integer id, Model model) throws UnsupportedEncodingException {
         auth = SecurityContextHolder.getContext().getAuthentication();
-        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        if(auth.getName() == "anonymousUser"){
+            this.username = "not logged in";
+            model.addAttribute("comment", false);
+        }else{
+            this.username = auth.getName();
+            if(commentService.existsComment( userService.findByUsername(this.username), restaurantService.getRestaurant(id))){
+                model.addAttribute("commentFunction", false);
+            }else{
+                model.addAttribute("commentFunction", true);
+            }
+        }
         Restaurant restaurant = restaurantService.getRestaurant(id);
         byte[] bytes;
         String fot;
@@ -170,14 +163,16 @@ public class RestaurantController {
         fot = new String(bytes,"UTF-8");
 
         restaurant.setScore(0);
-        for(int i=0;i<restaurant.getComments().size();i++)
+        for(int i=0;i<restaurant.getComments().size();i++){
             restaurant.setScore(restaurant.getScore() + (restaurant.getComments().get(i).getScore()));
-        restaurant.setScore(restaurant.getScore()/restaurant.getComments().size());
+        }
+        if(restaurant.getComments().size() > 0){
+            restaurant.setScore(restaurant.getScore()/restaurant.getComments().size());
+        }
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("fot",fot);
         model.addAttribute("user", userService.findByUsername(this.username));
         return "showRestaurant";
-
     }
 
     @RequestMapping(value = "/restaurant/like", method = RequestMethod.POST)
@@ -186,4 +181,18 @@ public class RestaurantController {
         return "redirect:/showRestaurant/" + likeRestaurant.getRestaurant().getId();
     }
 
+    @RequestMapping("/ADMIN")
+    String listADMIN(Model model) throws UnsupportedEncodingException {
+        byte[] bytes;
+        String fot;
+        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
+        for(int i=0; i<restaurantIterable.size(); i++){
+            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
+            fot = new String(bytes,"UTF-8");
+            restaurantIterable.get(i).setF(fot);
+
+        }
+        model.addAttribute("restaurants", restaurantService.listAllRestaurants());
+        return "admin";
+    }
 }

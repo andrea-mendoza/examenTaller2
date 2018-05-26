@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{username}" placeholder="Username"
-                               class="form-control" /> <label
+                               class="form-control" required="required"/> <label
                             th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
                             class="validation-message"></label>
                     </div>
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <input type="password" th:field="*{password}"
-                               placeholder="Password" class="form-control" /> <label
+                               placeholder="Password" class="form-control" required="required"/> <label
                             th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                             class="validation-message"></label>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <div class="col-sm-9">
                         <input type="password" th:field="*{passwordConfirm}"
-                               placeholder="passwordConfirm" class="form-control" /> <label
+                               placeholder="passwordConfirm" class="form-control" required="required"/> <label
                             th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"
                             class="validation-message"></label>
                     </div>

@@ -1,6 +1,8 @@
 package com.ucbcba.demo.services;
 
 import com.ucbcba.demo.Entities.Comment;
+import com.ucbcba.demo.Entities.Restaurant;
+import com.ucbcba.demo.Entities.User;
 import com.ucbcba.demo.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +38,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Integer id) {
-        commentRepository.delete(id);;
+        commentRepository.delete(id);
+    }
+    @Override
+    public boolean existsComment(User userId, Restaurant restaurantId){
+        return (commentRepository.existsComment(userId, restaurantId));
     }
 }
