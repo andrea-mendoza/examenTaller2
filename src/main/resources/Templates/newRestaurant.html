@@ -3,34 +3,44 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Nuevo Restaurante</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"/>
+    <style>
+        .container{
+            color: orange;
+        }
+    </style>
 </head>
-<body>
-<form style= "padding-left:50px;" th:action="@{/ADMIN}" method="GET">
-    <button type="submit">Volver</button>
+<body style="background-color: #00002D;">
+<form th:action="@{/ADMIN}" method="POST">
+    <button class="btn btn-secondary" style="color:orange; background-color: #00002D; border:none;" type="submit"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
 </form>
-<h1>Registrar Restaurante</h1>
-<form autocomplete="off" th:action="@{/restaurant}"  method="POST"
-    th:object="${restaurant}" enctype="multipart/form-data">
-    <p>Ingrese el nombre</p>
-    <input type="text" th:field="*{name}" placeholder="Nombre" required="required"/>
-    <p>Ingrese Direccion Principal: </p>
-    <input type="text" th:field="*{direction}" placeholder="Direccion" required="required"/>
-    <p>Ingrese el telefono: </p>
-    <input type="text" th:field="*{phone}" placeholder="Telefono" required="required"/>
-    <br />
-    <select th:field="*{category}">
-        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-    </select>
-    <br/>
-    <select th:field="*{city}">
-        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
-    </select>
-    <br />
-    <input type="file" name="file" id="foto" required="required"/>
-    <br/>
-    <button style="background-color:darkturqoise" type="submit" >Crear restaurant</button>
-
-</form>
+<div class="container">
+    <div class="page-header">
+        <h2><strong>Nuevo restaurante</strong></h2>
+    </div>
+    <form autocomplete="off" th:action="@{/restaurant}"  method="POST"
+        th:object="${restaurant}" enctype="multipart/form-data">
+        <p>Ingrese el nombre</p>
+        <input class="form-control my-0 py-1" style="min-width: 100%; color: orange;" type="text" th:field="*{name}" placeholder="Nombre" required="required"/>
+        <p>Ingrese Direccion Principal: </p>
+        <input class="form-control my-0 py-1" style="min-width: 100%; color: orange;" type="text" th:field="*{direction}" placeholder="Direccion" required="required"/>
+        <p>Ingrese el telefono: </p>
+        <input class="form-control my-0 py-1" style="min-width: 100%; color: orange;" type="text" th:field="*{phone}" placeholder="Telefono" required="required"/>
+        <br />
+        <select class="form-control" style="width: 250px; color: orange;" th:field="*{category}">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <br/>
+        <select class="form-control" style="width: 250px; color: orange;" th:field="*{city}">
+            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+        </select>
+        <br />
+        <input type="file" name="file" id="foto" required="required"/>
+        <br/>
+        <button class="btn btn-secondary" style="color: #00002D; background-color: orange;" type="submit" >Crear restaurant</button>
+    </form>
+</div>
 </body>
 </html>

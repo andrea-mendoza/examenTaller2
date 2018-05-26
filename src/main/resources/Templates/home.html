@@ -2,7 +2,7 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head  lang="es">
     <title> Home </title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet"/>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
 </head>
@@ -38,8 +38,8 @@
                     <div class="col-md-12">
                         <div class="main_slider_content wow zoomIn" data-wow-duration="1s">
                             <h1> TROFIMA </h1>
-                            <div style="display:flex">
-                                <form action="/search" method="get">
+                            <div>
+                                <form style="display:flex" action="/search" method="get">
                                 <select id="id" name="id" style="width: 300px; color:orange" class="form-control" >
                                     <option style="color:orange"
                                             th:each="city : ${cities}"

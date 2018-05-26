@@ -3,75 +3,79 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Show</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"/>
+    <style>
+        .jumbotron{
+            background-color: #012438;
+            color: orange;
+        }
+        .container{
+            color: orange;
+        }
+    </style>
+    <script>
+
+    </script>
 </head>
-<body>
-<form style= "padding-left:50px;" th:action="@{/restaurants}" method="POST">
-    <button type="submit">Volver</button>
+<body style="background-color: #00002D;">
+<form th:action="@{/restaurants}" method="POST">
+    <button class="btn btn-secondary" style="color:orange; background-color: #00002D; border:none;" type="submit"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
 </form>
-
-<div style= "padding-left:50px;">
-    <img class="info" th:src="@{'data:image/jpg;base64,' + ${fot} }" width="300"/>
-</div>
-<div style= "padding-left:50px;">
-    <h2><strong th:text="${restaurant.name}"></strong></h2>
-</div>
-<div style= "padding-left:50px;  font-color" >
-    <p style="font-size:20px;">Ciudad: <span th:text="${restaurant.city.name}"></span></p>
-    <p style="font-size:20px;">Direccion: <span th:text="${restaurant.direction}"></span></p>
-    <p style="font-size:20px;">Telefono: <span th:text="${restaurant.phone}"></span></p>
-    <p style="font-size:20px;">Categoria: <span th:text="${restaurant.category.name}"></span></p>
-    <p style="font-size:20px;">Likes: <span th:text="${restaurant.likeRestaurants.size()}"></span></p>
-    <p style="font-size:20px;">Ranking:</p>
-    <div th:if="${restaurant.score > 0}">
-        <fieldset  class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
-            <label  style="padding-left:10px; color:yellow; font-size:120%;" ></label>
-        </fieldset>
-    </div>
-    <div>
-        <form style= "padding-left:50px;" th:action="@{/restaurant/like}" method="POST">
-            <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
-            <input type="hidden" name="user" th:value="${user.id}"/>
-
-            <button type="submit">Like</button>
-        </form>
-    </div>
-
-    <br/>
-    <br/>
-    <br/>
-</div>
-<div th:if="${commentFunction}">
-    <p style="font-size:20px;">Escribe un comentario</p>
-    <br/>
-    <form style= "padding-left:50px;" th:action="@{/comment}" method="POST">
-        <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
-        <input type="hidden" name="user" th:value="${user.id}"/>
-        <textarea name="text" id="text" cols="30" rows="10" required="required" placeholder="Escribe un comentario"></textarea>
-        <br/>
-        <fieldset class="rating">
-            <input type="radio" id="star5" name="score" value="5" required="required" checked="checked"/><label class = "full" for="star5" ></label>
-            <input type="radio" id="star4" name="score" value="4"/><label class = "full" for="star4" ></label>
-            <input type="radio" id="star3" name="score" value="3"/><label class = "full" for="star3" ></label>
-            <input type="radio" id="star2" name="score" value="2"/><label class = "full" for="star2" ></label>
-            <input type="radio" id="star1" name="score" value="1"/><label class = "full" for="star1" ></label>
-        </fieldset>
-        <br/>
-        <input type="submit" value="Enviar comentario"/>
-    </form>
-</div>
-    <div style= "padding-left:50px;" name="Comments">
-        <p th:each="comment : ${restaurant.comments}" >
-            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text: </b> <span th:text="${comment.text}"></span><br />
-            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: </b> <span th:text="${comment.creationDate}"></span><br />
-            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User: </b> <span th:text="${comment.user.username}"></span><br />
-            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Likes: </b> <a th:text="${comment.likes}"></a>
-            <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score: </b> <a th:text="${comment.score}"></a>
-            <a type="button" class="btn btn-info" th:href="${'/commentlike/' + comment.id}">like</a>
-            <a type="button" class="btn btn-info" th:href="${'/commentdislike/' + comment.id}">dislike</a>
-        </p>
-
+    <div class="container">
+        <div>
+            <img class="info" th:src="@{'data:image/jpg;base64,' + ${fot} }" width="100%" height="400px"/>
+        </div>
+        <div class="page-header">
+            <h2><strong th:text="${restaurant.name}"></strong></h2>
+        </div>
+        <div>
+                <p>Ciudad: <span th:text="${restaurant.city.name}"></span></p>
+                <p>Direccion: <span th:text="${restaurant.direction}"></span></p>
+                <p>Telefono: <span th:text="${restaurant.phone}"></span></p>
+                <p>Categoria: <span th:text="${restaurant.category.name}"></span></p>
+                <p>Likes: <span th:text="${restaurant.likeRestaurants.size()}"></span></p>
+                <b>Ranking:</b>
+                <div style="display: flex;" th:if="${restaurant.score > 0}">
+                    <fieldset  class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
+                        <label  style="color:yellow; font-size:120%;" ></label>
+                    </fieldset>
+                </div>
+                <form th:action="@{/restaurant/like}" method="POST" style="align: left">
+                    <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
+                    <input type="hidden" name="user" th:value="${user.id}"/>
+                    <button type="submit" class="btn btn-inverse btn-danger"><span class="glyphicon glyphicon-heart"></span></button>
+                </form>
+                <div class="container" th:if="${commentFunction}">
+                    <form th:action="@{/comment}" method="POST">
+                        <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
+                        <input type="hidden" name="user" th:value="${user.id}"/>
+                        <textarea class="form-control my-0 py-1" style="min-width: 100%; color: orange;" name="text" id="text" required="required" placeholder="Escribe un comentario"></textarea>
+                        <div style="display: flex;">
+                            <fieldset class="rating">
+                                <input type="radio" id="star5" name="score" value="5" required="required" checked="checked"/><label class = "full" for="star5" ></label>
+                                <input type="radio" id="star4" name="score" value="4"/><label class = "full" for="star4" ></label>
+                                <input type="radio" id="star3" name="score" value="3"/><label class = "full" for="star3" ></label>
+                                <input type="radio" id="star2" name="score" value="2"/><label class = "full" for="star2" ></label>
+                                <input type="radio" id="star1" name="score" value="1"/><label class = "full" for="star1" ></label>
+                            </fieldset>
+                            <input class="btn btn-secondary" style="color: #00002D; background-color: orange;" type="submit" value="Enviar comentario"/>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        <div class="row">
+            <div class="jumbotron" name="Comments" th:each="comment : ${restaurant.comments}">
+                    <b>Text: </b> <span th:text="${comment.text}"></span><br />
+                    <b>Date: </b> <span th:text="${comment.creationDate}"></span><br />
+                    <b>User: </b> <span th:text="${comment.user.username}"></span><br />
+                    <b>Likes: </b> <a th:text="${comment.likes}"></a>
+                    <b>Score: </b> <a th:text="${comment.score}"></a>
+                    <a type="button" class="btn btn-default" style="color:orange; background-color: #012438; border:none;" th:href="${'/commentlike/' + comment.id}"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                    <a type="button" class="btn btn-default" style="color:orange; background-color: #012438; border:none;" th:href="${'/commentdislike/' + comment.id}"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

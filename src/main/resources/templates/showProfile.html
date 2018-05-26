@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Show</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <style>
+        .container{
+            color: orange;
+        }
+    </style>
 </head>
-<body>
-    <p>Aqui se va a mostrar los datos del perfil</p>
+<body style="background-color: #00002D;">
+<form th:action="@{/}" method="POST">
+    <button class="btn btn-secondary" style="color:orange; background-color: #00002D; border:none;" type="submit"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+</form>
+    <div class="container">
+        <div class="page-header">
+            <h2><strong>Perfil</strong></h2>
+        </div>
+    </div>
 </body>
 </html>

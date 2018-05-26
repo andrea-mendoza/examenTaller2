@@ -2,49 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Home</title>
+    <title>Restaurantes</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"/>
+    <style>
+        .container{
+            color: orange;
+        }
+        .jumbotron{
+            background-color: #012438;
+            color: orange;
+        }
+    </style>
 </head>
-<body>
-<button onclick="window.location.href='/logout'">Cerrar sesion</button>
-<button onclick="window.location.href='/ADMIN/newRestaurant'">Nuevo restaurante</button>
-<h1>ADMINISTRADOR</h1>
-<table border="2" cellspacing="0" cellpadding="8" >
-    <tr>
-        <th>
-            Nombre
-        </th>
-        <th>
-            Direccion
-        </th>
-        <th>
-            Telefono
-        </th>
-        <th>
-            Score
-        </th>
-        <th>
-            Imagen
-        </th>>
-        <th>
-            Opciones
-        </th>
-
-
-    </tr>
-    <tr th:each="restaurant: ${restaurants}">
-        <td th:text="${restaurant.name}"> </td>
-        <td th:text="${restaurant.direction}"> </td>
-        <td th:text="${restaurant.phone}"> </td>
-        <td th:text="${restaurant.score}"> </td>
-        <td><img th:src="@{'data:image/jpg;base64,' +  ${restaurant.f}}" width="500"/></td>
-
-        <td>
-            <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
-            <a th:href="${'/ADMIN/editRestaurant/' + restaurant.id}">Editar</a>
-            <a th:href="${'/ADMIN/deleteRestaurant/' + restaurant.id}">Eliminar</a>
-        </td>
-    </tr>
-</table>
+<body style="background-color: #00002D;">
+<form th:action="@{/}" method="POST">
+    <button class="btn btn-secondary" style="color:orange; background-color: #00002D; border:none;" type="submit"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+</form>
+<div class="container">
+    <div class="page-header">
+        <h2><strong>Administrador</strong></h2>
+    </div>
+    <button class="btn btn-secondary" style="color: #00002D; background-color: orange;"
+            onclick="window.location.href='/logout'">Cerrar sesion</button>
+    <button class="btn btn-s econdary" style="color: #00002D; background-color: orange;"
+            onclick="window.location.href='/ADMIN/newRestaurant'">Nuevo restaurante</button>
+    <div class="media jumbotron" th:each="restaurant: ${restaurants}">
+        <div class="media-body">
+            <img class="media-object" th:src="@{'data:image/jpg;base64,' +  ${restaurant.f}}" width="300px;" height="200px;"/>
+            <h4 class="media-heading" th:text="${restaurant.name}"></h4>
+            <p th:text="${restaurant.category.name}"></p>
+            <p th:text="${restaurant.city.name}"></p>
+            <div th:if="${restaurant.score > 0}">
+                <fieldset  class="rating" th:each="stars:${#numbers.sequence(1,{restaurant.score})}" >
+                    <label  style="color:yellow; font-size:120%;" ></label>
+                </fieldset>
+            </div>
+        </div>
+        <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
+        <a th:href="${'/ADMIN/editRestaurant/' + restaurant.id}"><span class="glyphicon glyphicon-pencil">Editar</span></a>
+        <a th:href="${'/ADMIN/deleteRestaurant/' + restaurant.id}"><span class="glyphicon glyphicon-trash">Eliminar</span></a>
+    </div>
+</div>
 </body>
 </html>
