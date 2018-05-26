@@ -1,10 +1,13 @@
 package com.ucbcba.demo.services;
 
+import com.ucbcba.demo.Entities.City;
 import com.ucbcba.demo.Entities.Restaurant;
 import com.ucbcba.demo.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -38,8 +41,13 @@ public class RestaurantServiceImp implements RestaurantService {
         restaurantRepository.delete(id);
     }
 
-    /*@Override
-    public Iterable<Restaurant> getRestaurantLikename(String name) {
-        return restaurantRepository.getRestaurantLikename(name);
-    }*/
+    @Override
+    public Iterable<Restaurant> getRestaurantLikeName(String name) {
+        return restaurantRepository.getRestaurantLikeName(name);
+    }
+
+    @Override
+    public Iterable<Restaurant> getByCity(City cityId) {
+        return restaurantRepository.getByCity(cityId);
+    }
 }

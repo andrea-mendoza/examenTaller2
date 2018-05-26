@@ -10,6 +10,18 @@
 
 <h1>Restaurantes</h1>
 
+<form action="/search" method="get">
+    <select id="id" name="id" style="width: 300px; color:orange" class="form-control" >
+        <option style="color:orange"
+                th:each="city : ${cities}"
+                th:value="${city.id}"
+                th:text="${city.name}"
+                th:selected="(${city.id} == ${id})">
+        </option>
+    </select>
+    <input value = "Buscar" type="submit" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"/>
+</form>
+
 <table border="2" cellspacing="0" cellpadding="8" >
     <tr>
         <th>

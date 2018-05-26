@@ -1,10 +1,7 @@
 package com.ucbcba.demo.Controllers;
 
-import com.ucbcba.demo.Entities.Category;
-import com.ucbcba.demo.Entities.LikeRestaurant;
-import com.ucbcba.demo.Entities.Restaurant;
+import com.ucbcba.demo.Entities.*;
 
-import com.ucbcba.demo.Entities.User;
 import com.ucbcba.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,8 +25,6 @@ public class RestaurantController {
     private LikeRestaurantService likeRestaurantService;
     private Authentication auth;
     private String username;
-    private String name;
-
 
     @Autowired
     public void setRestaurantService(RestaurantService restaurantService){ this.restaurantService = restaurantService; }
@@ -79,7 +74,6 @@ public class RestaurantController {
             restaurantIterable.get(i).setF(fot);
         }
 
-        System.out.println(id);
         model.addAttribute( "categories", categoryService.listAllCategories());
         Category categories = categoryService.getRestaurant(id);
         List<Restaurant> restaurants = categories.getRestaurants();
@@ -87,6 +81,40 @@ public class RestaurantController {
         return "search";
     }
 
+    @RequestMapping("/search")
+    String searchByName(@RequestParam(value = "name", required = false, defaultValue = "") String name, @RequestParam(value = "id")Integer id, Model model)throws UnsupportedEncodingException {
+        model.addAttribute("cities", cityService.listAllCities());
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        if(username == "not logged in"){
+            model.addAttribute("actualRole", "CLIENTE");
+        }else{
+            model.addAttribute("actualRole", userService.findByUsername(username).getRole());
+        }
+        byte[] bytes;
+        String fot;
+        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
+        for(int i=0; i<restaurantIterable.size(); i++){
+            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
+            fot = new String(bytes,"UTF-8");
+            restaurantIterable.get(i).setF(fot);
+        }
+
+        City city = cityService.getCity(id);
+        List<Restaurant> restaurants = city.getRestaurants();
+
+        if(name.equals("")){
+
+            model.addAttribute("restaurants",restaurants);
+            return "searchCity";
+        }
+        else{
+            restaurants = (List<Restaurant>)restaurantService.getRestaurantLikeName(name);
+        }
+
+        model.addAttribute("restaurants",restaurants);
+        return "search";
+    }
 
     @RequestMapping("/ADMIN/newRestaurant")
     String newRestaurant(Model model) {
