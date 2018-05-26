@@ -205,6 +205,13 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/like", method = RequestMethod.POST)
     String likeRestaurant(LikeRestaurant likeRestaurant) {
+        List<LikeRestaurant> likeRestaurantList = (List<LikeRestaurant>)likeRestaurantService.listAllLikeRestaurant();
+        for(int i=0; i<likeRestaurantList.size(); i++){
+            if(likeRestaurantList.get(i).getRestaurant().getId() == likeRestaurant.getRestaurant().getId() &&
+                    likeRestaurantList.get(i).getUser().getId() == likeRestaurant.getUser().getId()){
+                return "redirect:/showRestaurant/" + likeRestaurant.getRestaurant().getId();
+            }
+        }
         likeRestaurantService.saveLikeRestaurant(likeRestaurant);
         return "redirect:/showRestaurant/" + likeRestaurant.getRestaurant().getId();
     }
