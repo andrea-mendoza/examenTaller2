@@ -41,9 +41,10 @@
     <br/>
     <br/>
     <br/>
+</div>
+<div th:if="${commentFunction}">
     <p style="font-size:20px;">Escribe un comentario</p>
     <br/>
-</div>
     <form style= "padding-left:50px;" th:action="@{/comment}" method="POST">
         <input type="hidden" name="restaurant" th:value="${restaurant.id}"/>
         <input type="hidden" name="user" th:value="${user.id}"/>
@@ -59,6 +60,7 @@
         <br/>
         <input type="submit" value="Enviar comentario"/>
     </form>
+</div>
     <div style= "padding-left:50px;" name="Comments">
         <p th:each="comment : ${restaurant.comments}" >
             <b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text: </b> <span th:text="${comment.text}"></span><br />

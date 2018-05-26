@@ -22,6 +22,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
     private CityService cityService;
     private CategoryService categoryService;
+    private CommentService commentService;
     private UserService userService;
     private LikeRestaurantService likeRestaurantService;
     private Authentication auth;
@@ -44,6 +45,8 @@ public class RestaurantController {
     }
     @Autowired
     public void setLikeRestaurantService(LikeRestaurantService likeRestaurantService) { this.likeRestaurantService = likeRestaurantService; }
+    @Autowired
+    public void setLikeRestaurantService(CommentService commentService) { this.commentService = commentService; }
 
 
     @RequestMapping("/")
@@ -111,7 +114,17 @@ public class RestaurantController {
     @RequestMapping("/showRestaurant/{id}")
     String showRestaurant(@PathVariable Integer id, Model model) throws UnsupportedEncodingException {
         auth = SecurityContextHolder.getContext().getAuthentication();
-        this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        if(auth.getName() == "anonymousUser"){
+            this.username = "not logged in";
+            model.addAttribute("comment", false);
+        }else{
+            this.username = auth.getName();
+            if(commentService.existsComment( userService.findByUsername(this.username), restaurantService.getRestaurant(id))){
+                model.addAttribute("commentFunction", false);
+            }else{
+                model.addAttribute("commentFunction", true);
+            }
+        }
         Restaurant restaurant = restaurantService.getRestaurant(id);
         byte[] bytes;
         String fot;
@@ -129,7 +142,6 @@ public class RestaurantController {
         model.addAttribute("fot",fot);
         model.addAttribute("user", userService.findByUsername(this.username));
         return "showRestaurant";
-
     }
 
     @RequestMapping(value = "/restaurant/like", method = RequestMethod.POST)
