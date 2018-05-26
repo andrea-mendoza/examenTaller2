@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"  ></meta>
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<h1>Restaurantes</h1>
+<!--
+<form th:action="${'/search/' + id}">
+    <select th:field="*{id}" id="new" name="new">
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="(${category.id} == ${id})"></option>
+    </select>
+    <a type="submit" > buscar</a>
+</form>-->
+
+<table border="2" cellspacing="0" cellpadding="8" >
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Direccion
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Score
+        </th>
+        <th>
+            Imagen
+        </th>>
+        <th>
+            Opciones
+        </th>
+
+
+    </tr>
+    <tr th:each="restaurant: ${restaurants}">
+        <td th:text="${restaurant.name}"> </td>
+        <td th:text="${restaurant.direction}"> </td>
+        <td th:text="${restaurant.phone}"> </td>
+        <td th:text="${restaurant.score}"> </td>
+        <td><img th:src="@{'data:image/jpg;base64,' +  ${restaurant.f}}" width="500"/></td>
+
+        <td>
+            <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
+            <a th:class="${actualRole}" th:href="${'/editRestaurant/' + restaurant.id}">Editar</a>
+            <a th:class="${actualRole}" th:href="${'/deleteRestaurant/' + restaurant.id}">Eliminar</a>
+        </td>
+    </tr>
+</table></body>
+</html>

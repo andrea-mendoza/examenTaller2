@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head  lang="es">
     <title> Home </title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet"/>
@@ -51,13 +51,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Desayuno </button>
-                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Almuerzo </button>
-                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Cena </button>
-                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Cafeteria </button>
-                            <button type="button" class="btn btn-secondary" style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"> Merienda </button>
-                        </div>
+                        <td th:each="category : ${categories}" method="get">
+                            <a th:href="${'/search/' + category.id}" th:text="${category.name}" class="btn btn-secondary"  style="margin: 0px; color:orange; background-color: rgba(1, 1, 36, 0.56);"></a>
+                        </td>
                     </div>
                 </div>
             </div>

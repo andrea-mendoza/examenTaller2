@@ -1,11 +1,9 @@
 package com.ucbcba.demo.Entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Entity
@@ -16,6 +14,9 @@ public class City {
 
     @NotNull
     private String name;
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    private List<Restaurant> restaurants;
 
     public String getName() {
         return name;
@@ -31,5 +32,13 @@ public class City {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
     }
 }

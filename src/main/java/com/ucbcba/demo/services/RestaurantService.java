@@ -10,4 +10,6 @@ public interface RestaurantService {
     Restaurant getRestaurant(Integer id);
 
     void deleteRestaurant(Integer id);
+
+    //Iterable<Restaurant> getRestaurantLikename(String name);
 }

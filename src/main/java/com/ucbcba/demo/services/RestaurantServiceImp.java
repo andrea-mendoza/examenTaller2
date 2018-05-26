@@ -37,4 +37,9 @@ public class RestaurantServiceImp implements RestaurantService {
     public void deleteRestaurant(Integer id) {
         restaurantRepository.delete(id);
     }
+
+    /*@Override
+    public Iterable<Restaurant> getRestaurantLikename(String name) {
+        return restaurantRepository.getRestaurantLikename(name);
+    }*/
 }
