@@ -54,7 +54,7 @@ public class RestaurantController {
         model.addAttribute("username", this.username);
         return "home";
     }
-    @RequestMapping("/newRestaurant")
+    @RequestMapping("/ADMIN/newRestaurant")
     String newRestaurant(Model model) {
         model.addAttribute("restaurant",new Restaurant());
         model.addAttribute( "categories", categoryService.listAllCategories());
@@ -82,10 +82,10 @@ public class RestaurantController {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
         return "restaurants";
     }
-    @RequestMapping("/deleteRestaurant/{id}")
+    @RequestMapping("/ADMIN/deleteRestaurant/{id}")
     String delete(@PathVariable Integer id) {
         restaurantService.deleteRestaurant(id);
-        return "redirect:/restaurants";
+        return "redirect:/ADMIN";
 
     }
     @RequestMapping(value = "/restaurant", method = RequestMethod.POST)
@@ -94,11 +94,14 @@ public class RestaurantController {
         if(!files.isEmpty()){
             f = files.getBytes();
             restaurant.setFoto(f);
+        }else{
+            Restaurant r = restaurantService.getRestaurant(restaurant.getId());
+            restaurant.setFoto(r.getFoto());
         }
         restaurantService.saveRestaurant(restaurant);
-        return "redirect:/restaurants";
+        return "redirect:/ADMIN";
     }
-    @RequestMapping("/editRestaurant/{id}")
+    @RequestMapping("/ADMIN/editRestaurant/{id}")
     String editRestaurant(@PathVariable Integer id, Model model) {
         model.addAttribute("restaurant", restaurantService.getRestaurant(id));
         model.addAttribute("categories", categoryService.listAllCategories());
@@ -116,9 +119,12 @@ public class RestaurantController {
         fot = new String(bytes,"UTF-8");
 
         restaurant.setScore(0);
-        for(int i=0;i<restaurant.getComments().size();i++)
+        for(int i=0;i<restaurant.getComments().size();i++){
             restaurant.setScore(restaurant.getScore() + (restaurant.getComments().get(i).getScore()));
-        restaurant.setScore(restaurant.getScore()/restaurant.getComments().size());
+        }
+        if(restaurant.getComments().size() > 0){
+            restaurant.setScore(restaurant.getScore()/restaurant.getComments().size());
+        }
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("fot",fot);
         model.addAttribute("user", userService.findByUsername(this.username));
@@ -132,4 +138,18 @@ public class RestaurantController {
         return "redirect:/showRestaurant/" + likeRestaurant.getRestaurant().getId();
     }
 
+    @RequestMapping("/ADMIN")
+    String listADMIN(Model model) throws UnsupportedEncodingException {
+        byte[] bytes;
+        String fot;
+        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
+        for(int i=0; i<restaurantIterable.size(); i++){
+            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
+            fot = new String(bytes,"UTF-8");
+            restaurantIterable.get(i).setF(fot);
+
+        }
+        model.addAttribute("restaurants", restaurantService.listAllRestaurants());
+        return "admin";
+    }
 }

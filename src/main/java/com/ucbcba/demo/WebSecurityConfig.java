@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/registration", "/").permitAll()
                 .antMatchers("/restaurants/**").permitAll()
-                .antMatchers("/deleteRestaurant/**","/newRestaurant","/editRestaurant/**", "/restaurant").hasAuthority("ADMIN")
+                .antMatchers("/ADMIN/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/css/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/images/**").permitAll()
                 .anyRequest().authenticated()
@@ -38,10 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .failureUrl("/login")
                 .defaultSuccessUrl("/")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //se crea logout "get"
+                .logoutSuccessUrl("/").and().exceptionHandling();
     }
 
     @Autowired

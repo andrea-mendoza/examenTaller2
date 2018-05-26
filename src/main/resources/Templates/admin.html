@@ -7,7 +7,8 @@
 </head>
 <body>
 <button onclick="window.location.href='/logout'">Cerrar sesion</button>
-<h1>Restaurantes</h1>
+<button onclick="window.location.href='/ADMIN/newRestaurant'">Nuevo restaurante</button>
+<h1>ADMINISTRADOR</h1>
 <table border="2" cellspacing="0" cellpadding="8" >
     <tr>
         <th>
@@ -40,6 +41,8 @@
 
         <td>
             <a th:href="${'/showRestaurant/' + restaurant.id}">Ver</a>
+            <a th:href="${'/ADMIN/editRestaurant/' + restaurant.id}">Editar</a>
+            <a th:href="${'/ADMIN/deleteRestaurant/' + restaurant.id}">Eliminar</a>
         </td>
     </tr>
 </table>
