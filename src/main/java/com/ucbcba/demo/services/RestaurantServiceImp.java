@@ -1,6 +1,7 @@
 package com.ucbcba.demo.services;
 
 import com.ucbcba.demo.Entities.City;
+import com.ucbcba.demo.Entities.Country;
 import com.ucbcba.demo.Entities.Restaurant;
 import com.ucbcba.demo.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,10 @@ public class RestaurantServiceImp implements RestaurantService {
     @Override
     public Iterable<Restaurant> getByCityAndiD(City cityId, String name) {
         return restaurantRepository.getByCityAndiD(cityId,name);
+    }
+
+    @Override
+    public Iterable<Restaurant> getByCountryAndCity(City cityId, Country countryId) {
+        return restaurantRepository.getByCountryAndCity(cityId,countryId);
     }
 }

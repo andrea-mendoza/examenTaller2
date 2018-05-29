@@ -26,6 +26,7 @@ public class RestaurantController {
     private LikeRestaurantService likeRestaurantService;
     private Authentication auth;
     private String username;
+    private CountryService countryService;
 
     @Autowired
     public void setRestaurantService(RestaurantService restaurantService){ this.restaurantService = restaurantService; }
@@ -46,11 +47,17 @@ public class RestaurantController {
     @Autowired
     public void setLikeRestaurantService(CommentService commentService) { this.commentService = commentService; }
 
+    @Autowired
+    public void setCountryService(CountryService countryService){
+        this.countryService= countryService;
+    }
+
 
     @RequestMapping("/")
     String home(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
         this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
+        model.addAttribute("countries",countryService.listAllCountries());
         model.addAttribute( "categories", categoryService.listAllCategories());
         model.addAttribute("cities", cityService.listAllCities());
         model.addAttribute("username", this.username);
@@ -83,7 +90,7 @@ public class RestaurantController {
     }
 
     @RequestMapping("/search")
-    String searchByName(@RequestParam(value = "name", required = false, defaultValue = "") String name, @RequestParam(value = "id")Integer id, Model model)throws UnsupportedEncodingException {
+    String searchByName(@RequestParam(value = "name", required = false, defaultValue = "") String name, @RequestParam(value = "id")Integer id, @RequestParam(value= "countryId") Integer countryId, Model model)throws UnsupportedEncodingException {
         model.addAttribute("cities", cityService.listAllCities());
         auth = SecurityContextHolder.getContext().getAuthentication();
         this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
@@ -95,7 +102,8 @@ public class RestaurantController {
 
         if(name.equals("")){
 
-            List<Restaurant> restaurants = (List<Restaurant>) restaurantService.getByCity(cityService.getCity(id));
+            //List<Restaurant> restaurants = (List<Restaurant>) restaurantService.getByCity(cityService.getCity(id));
+            List<Restaurant> restaurants = (List<Restaurant>) restaurantService.getByCountryAndCity(cityService.getCity(id),countryService.getCountry(countryId));
             model.addAttribute("restaurants",restaurants);
             return "searchCity";
         }

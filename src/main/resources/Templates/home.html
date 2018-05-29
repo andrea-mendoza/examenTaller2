@@ -40,11 +40,19 @@
                             <h1> TROFIMA </h1>
                             <div>
                                 <form style="display:flex" action="/search" method="get">
+                                    <select id="countryId" name="countryId" style="width: 300px; color:orange" class="form-control" >
+                                        <option style="color:orange"
+                                                th:each="country : ${countries}"
+                                                th:value="${country.id}"
+                                                th:text="${country.name}"
+                                        ></option>
+                                    </select>
                                 <select id="id" name="id" style="width: 300px; color:orange" class="form-control" >
                                     <option style="color:orange"
                                             th:each="city : ${cities}"
                                             th:value="${city.id}"
-                                            th:text="${city.name}"></option>
+                                            th:text="${city.name}"
+                                            th:if="${city.country.id} == 6000"></option>
                                 </select>
                                     <input class="form-control my-0 py-1" type="text" id ="name" name="name" placeholder="Search..." aria-label="Search" style="color:orange"/>
                                     <input value = "Buscar" type="submit" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"/>
