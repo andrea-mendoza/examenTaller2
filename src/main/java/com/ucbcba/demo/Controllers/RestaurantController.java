@@ -92,6 +92,7 @@ public class RestaurantController {
     @RequestMapping("/search")
     String searchByName(@RequestParam(value = "name", required = false, defaultValue = "") String name, @RequestParam(value = "id")Integer id, @RequestParam(value= "countryId") Integer countryId, Model model)throws UnsupportedEncodingException {
         model.addAttribute("cities", cityService.listAllCities());
+        model.addAttribute("countries",countryService.listAllCountries());
         auth = SecurityContextHolder.getContext().getAuthentication();
         this.username = (auth.getName() == "anonymousUser")?"not logged in":auth.getName();
         if(username == "not logged in"){

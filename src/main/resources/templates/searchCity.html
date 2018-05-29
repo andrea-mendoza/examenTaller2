@@ -25,14 +25,24 @@
     <button class="btn btn-secondary" style="color: #00002D; background-color: orange;"
             onclick="window.location.href='/logout'">Cerrar sesion</button>
     <form action="/search" method="get">
+
+        <select id="countryId" name="countryId" style="width: 300px; color:orange" class="form-control" >
+            <option style="color:orange"
+                    th:each="country : ${countries}"
+                    th:value="${country.id}"
+                    th:text="${country.name}"
+                    th:selected="(${country.id} == ${id})">
+            </option>
+        </select>
         <select id="id" name="id" style="width: 300px; color:orange" class="form-control" >
             <option style="color:orange"
                     th:each="city : ${cities}"
                     th:value="${city.id}"
                     th:text="${city.name}"
-                    th:selected="(${city.id} == ${id})">
+                    th:selected="(${city.id} == ${countryId})">
             </option>
         </select>
+
         <input value = "Buscar" type="submit" class="btn btn-secondary" style="color:orange; background-color: rgba(1, 1, 36, 0.56);"/>
     </form>
     <div class="media jumbotron" th:each="restaurant: ${restaurants}">
