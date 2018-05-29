@@ -31,6 +31,7 @@
             <h2><strong th:text="${restaurant.name}"></strong></h2>
         </div>
         <div>
+                <p>Pais: <span th:text="${restaurant.city.country.name}"></span></p>
                 <p>Ciudad: <span th:text="${restaurant.city.name}"></span></p>
                 <p>Direccion: <span th:text="${restaurant.direction}"></span></p>
                 <p>Telefono: <span th:text="${restaurant.phone}"></span></p>
