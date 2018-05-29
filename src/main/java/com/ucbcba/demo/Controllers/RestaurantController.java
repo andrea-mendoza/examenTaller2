@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -102,7 +103,7 @@ public class RestaurantController {
 
         City city = cityService.getCity(id);
         List<Restaurant> restaurants = city.getRestaurants();
-
+        List<Restaurant> restaurants1 = new ArrayList<>();
         if(name.equals("")){
 
             model.addAttribute("restaurants",restaurants);
@@ -110,8 +111,12 @@ public class RestaurantController {
         }
         else{
             restaurants = (List<Restaurant>)restaurantService.getRestaurantLikeName(name);
+//            for(int i=0; i<restaurants.size(); i++){
+//                if(restaurants.get(i).getName().matches("(.*)"+ name +"(.*)")){
+//                    restaurants1.add(restaurants.get(i));
+//                }
+//            }
         }
-
         model.addAttribute("restaurants",restaurants);
         return "search";
     }
