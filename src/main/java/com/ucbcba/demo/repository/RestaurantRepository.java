@@ -16,4 +16,9 @@ public interface RestaurantRepository extends CrudRepository<Restaurant,Integer>
 
     @Query("SELECT r from Restaurant r where r.city = :cityId")
     Iterable<Restaurant> getByCity(@Param("cityId") City cityId);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.city = :cityId AND r.name LIKE %:name%")
+    Iterable<Restaurant> getByCityAndiD(@Param("cityId") City cityId,
+                                        @Param("name") String name);
+
 }

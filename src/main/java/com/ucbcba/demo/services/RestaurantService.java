@@ -17,4 +17,7 @@ public interface RestaurantService {
     Iterable<Restaurant> getRestaurantLikeName(String name);
 
     Iterable<Restaurant> getByCity(City cityId);
+
+    Iterable<Restaurant> getByCityAndiD(City cityId, String name);
+
 }

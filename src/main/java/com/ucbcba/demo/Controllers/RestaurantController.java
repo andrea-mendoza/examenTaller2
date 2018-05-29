@@ -93,23 +93,23 @@ public class RestaurantController {
             model.addAttribute("actualRole", userService.findByUsername(username).getRole());
         }
 
-
-
         if(name.equals("")){
-            City city = cityService.getCity(id);
-            List<Restaurant> restaurants = city.getRestaurants();
+
+            List<Restaurant> restaurants = (List<Restaurant>) restaurantService.getByCity(cityService.getCity(id));
             model.addAttribute("restaurants",restaurants);
             return "searchCity";
         }
         else{
             byte[] bytes;
             String fot;
-            List<Restaurant> restaurants1 = (List<Restaurant>)restaurantService.getRestaurantLikeName(name);
-            for(int i=0; i<restaurants1.size(); i++){
+
+            List<Restaurant> restaurants1 = (List<Restaurant>)restaurantService.getByCityAndiD(cityService.getCity(id),name);
+            /*for(int i=0; i<restaurants1.size(); i++){
                 bytes = Base64.encode(restaurants1.get(i).getFoto());
                 fot = new String(bytes,"UTF-8");
                 restaurants1.get(i).setF(fot);
-            }
+            }*/
+
             model.addAttribute("restaurants",restaurants1);
             return "search";
         }

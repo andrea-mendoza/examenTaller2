@@ -50,4 +50,9 @@ public class RestaurantServiceImp implements RestaurantService {
     public Iterable<Restaurant> getByCity(City cityId) {
         return restaurantRepository.getByCity(cityId);
     }
+
+    @Override
+    public Iterable<Restaurant> getByCityAndiD(City cityId, String name) {
+        return restaurantRepository.getByCityAndiD(cityId,name);
+    }
 }
